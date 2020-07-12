@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:portal_alumni/main.dart';
 import 'package:portal_alumni/notification.dart';
 import 'package:portal_alumni/profil.dart';
 import 'package:portal_alumni/search.dart';
-import 'package:portal_alumni/notif2.dart';
 import 'package:portal_alumni/shared/theme.dart';
 
-
-
 class Beranda extends StatefulWidget {
+  final String token;
+  final Map user;
+
+  const Beranda({Key key, this.token, this.user}) : super(key: key);
+
   @override
   _BerandaState createState() => _BerandaState();
 }
@@ -21,7 +22,6 @@ class _BerandaState extends State<Beranda> {
   @override
   void initState() {
     super.initState();
-
     bottomNavBarIndex = 0;
     pageController = PageController(initialPage: bottomNavBarIndex);
   }
@@ -45,10 +45,14 @@ class _BerandaState extends State<Beranda> {
             });
           },
           children: <Widget>[
-            Search(),
+            Search(
+              token: widget.token,
+            ),
             Notif(),
-            Profile(),
-            
+            Profile(
+              user: widget.user,
+              token: widget.token,
+            ),
           ],
         ),
         createCustomBottomNavbar(),
@@ -78,10 +82,10 @@ class _BerandaState extends State<Beranda> {
               },
               items: [
                 BottomNavigationBarItem(
-                    title: Text("Search",
+                    title: Text("Alumni",
                         style: GoogleFonts.raleway(
                             fontSize: 13, fontWeight: FontWeight.w600)),
-                    icon: Icon(Icons.search)),
+                    icon: Icon(Icons.people)),
                 BottomNavigationBarItem(
                     title: Text("Notification",
                         style: GoogleFonts.raleway(
